@@ -1,0 +1,8 @@
+{
+  "name": "<%= _.slugify(name) %>",
+  "version": "1.0.0",
+  "dependencies": {
+  	"jquery": "<%= jQueryVer %>",
+  	"css-reset": "http://meyerweb.com/eric/tools/css/reset/reset.css"
+  }
+}
