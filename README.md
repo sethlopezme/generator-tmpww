@@ -101,7 +101,7 @@ Grunt will be automagically set up by Yeoman to do the following:
 * Run CSSComb on your Sass/LESS files
 * Compile your Sass/LESS
 * Autoprefix your compiled CSS
-* Serve your files locally
+* Serve your files locally at `localhost:9000`
 * Enable LiveReload
 * Optimize your images in the `dev/images` directory
 * Build your project
@@ -124,4 +124,5 @@ When your project is complete, and you're ready to deploy, run `grunt build` fro
 
 ## Release History
 
+* 2013-12-15		v0.1.1			Added HTML5 Shiv dependency for Bower.
 * 2013-12-15		v0.1.0			Initial commit to Github.
