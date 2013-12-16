@@ -57,6 +57,12 @@ $ tree
 │   │   ├── css-reset/
 │   │   │   ├── .bower.json
 │   │   │   └── index.css
+│   │   └── html5shiv/
+│   │   │   ├── dist/
+│   │   │   │   ├── html5shiv.js
+│   │   │   │   └── html5shiv-printshiv.js
+│   │   │   ├── .bower.json
+│   │   │   └── readme.md
 │   │   └── jquery/
 │   │   │   ├── .bower.json
 │   │   │   ├── component.json
@@ -79,6 +85,15 @@ $ tree
 
 ### Bower
 When using Bower, your components will be installed in the `dev/components` directory.
+
+#### Installed Dependencies
+Bower will automatically install some dependencies for you and they're already included in the index.html file.
+
+* Eric Meyers' CSS Reset
+* HTML5 Shiv
+* jQuery
+
+During installation, Yeoman will ask you which version of jQuery you would like to install. The default is `jQuery#1.4.2`.
 
 ### Grunt
 Grunt will be automagically set up by Yeoman to do the following:

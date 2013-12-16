@@ -8,6 +8,7 @@
 
         <link rel="stylesheet" href="css/style.css">
         <script src="components/jquery/jquery.js"></script>
+        <script src="components/html5shiv/dist/html5shiv.js"></script>
     </head>
     <body id="article">
     	<script>$("html").attr("class", "js");</script>
@@ -17,6 +18,14 @@
         	<div id="content">
         		<h1>Success</h1>
         		<p>You have successfully generated a new template!</p>
+                <p>You have the following dependencies:</p>
+                <ul>
+                    <li>jQuery <%= jQueryVer %></li>
+                    <li>HTML5 Shiv</li>
+                    <li>Eric Meyers' CSS Reset</li>
+                </ul>
+                <p>Future dependencies will be installed in the <code>dev/components</code> folder.</p>
+                <p>Have fun!</p>
         	</div>
         </div>
         <!-- /#pageWrap -->
