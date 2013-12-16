@@ -86,6 +86,8 @@ Grunt will be automagically set up by Yeoman to do the following:
 * Run CSSComb on your Sass/LESS files
 * Compile your Sass/LESS
 * Autoprefix your compiled CSS
+* Serve your files locally
+* Enable LiveReload
 * Optimize your images in the `dev/images` directory
 * Build your project
 
@@ -94,14 +96,14 @@ Feel free to modify and adjust the configuration of your Grunt tasks. You can do
 
 For more information on configuring Grunt tasks, go [here](http://gruntjs.com/configuring-tasks).
 
-#### Development Stage
+#### Development
 While developing your project, simply run `grunt` from the shell in order to have grunt run CSSComb, Sass/LESS preprocessing, and autoprefixing tasks.
 
-If you'd like to use LiveReload, run `grunt watch` from your shell. This will watch your project for changes to your CSS, Javascript, and Images, and run the appropriate Grunt tasks.
+To have grunt do this automatically for you and enable LiveReload, run `grunt server` from your shell. This will set up your static server on port `9000`, watch your project for changes, and run the appropriate Grunt tasks.
 
-It's usually easier to use the Chrome extension. For more information on LiveReload, go [here](http://livereload.com/).
+It's usually easier to use a LiveReload extension. For more information on LiveReload, go [here](http://livereload.com/).
 
-#### Deployment Stage
+#### Deployment
 
 When your project is complete, and you're ready to deploy, run `grunt build` from your shell. This will run all of the optimization tasks, and build your project in the `build` directory. All of your deployment-ready files will be in the `build` directory.
 

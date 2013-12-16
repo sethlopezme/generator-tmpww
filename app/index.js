@@ -23,7 +23,7 @@ var TmpwwGenerator = module.exports = function TmpwwGenerator(args, options, con
 
   this.today = new Date();
   this.fullDate = this.today.getFullYear();
-  this.fullDate += '-' + this.today.getUTCMonth() + 1;
+  this.fullDate += '-' + (this.today.getUTCMonth() + 1);
   this.fullDate += '-' + this.today.getDate();
 };
 

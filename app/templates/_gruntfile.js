@@ -5,7 +5,7 @@ module.exports = function(grunt) {
         csscomb: {
             all: {
                 files: {
-                    'dev/less/style.less': ['dev/less/style.less']
+                    'dev/css/style.css': ['dev/css/style.css']
                 }
             }
         },
@@ -71,12 +71,22 @@ module.exports = function(grunt) {
                 spawn: false
             },
             css: {
-                files: ['dev/less/**'],
+                files: ['dev/less/*'],
                 tasks: ['csscomb', 'less:dev', 'autoprefixer']
             },
             images: {
-                files: ['dev/images/*'],
-                tasks: ['imagemin']
+                files: ['dev/images/*']
+            }
+        },
+        connect: {
+            options: {
+                port: 9000,
+                base: 'dev',
+                livereload: true
+            },
+            open: {
+                target: 'http://localhost:<%= connect.options.port %>',
+                appName: 'open'
             }
         }
     });
@@ -86,9 +96,13 @@ module.exports = function(grunt) {
 
     // Register task groups
     grunt.registerTask('default', [
-        'csscomb',
         'less:dev',
+        'csscomb',
         'autoprefixer'
+    ]);
+    grunt.registerTask('server', [
+        'connect',
+        'watch'
     ]);
     grunt.registerTask('build', [
         'csscomb',
