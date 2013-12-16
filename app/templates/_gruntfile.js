@@ -85,7 +85,7 @@ module.exports = function(grunt) {
                 livereload: true
             },
             open: {
-                target: 'http://localhost:<%= connect.options.port %>',
+                target: 'http://localhost:9000',
                 appName: 'open'
             }
         }
