@@ -70,12 +70,18 @@ module.exports = function(grunt) {
                 livereload: true,
                 spawn: false
             },
+            html: {
+                files: ['dev/**.html']
+            },
             css: {
                 files: ['dev/less/*'],
                 tasks: ['csscomb', 'less:dev', 'autoprefixer']
             },
             images: {
                 files: ['dev/images/*']
+            },
+            components: {
+                files: ['dev/components/**']
             }
         },
         connect: {
