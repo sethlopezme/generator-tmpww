@@ -66,8 +66,8 @@ module.exports = function(grunt) {
                 files: ['dev/**.html']
             },
             css: {
-                files: ['dev/less/*'],
-                tasks: ['less:dev', 'autoprefixer', 'csscomb']
+                files: ['dev/sass/*'],
+                tasks: ['sass', 'autoprefixer', 'csscomb']
             },
             images: {
                 files: ['dev/images/*']
