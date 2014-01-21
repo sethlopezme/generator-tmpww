@@ -71,7 +71,7 @@ TmpwwGenerator.prototype.askFor = function askFor() {
 TmpwwGenerator.prototype.folders = function folders() {
   this.mkdir('dev');
   this.mkdir('dev/css');
-  this.mkdir('dev/less');
+  this.mkdir('dev/sass');
   this.mkdir('dev/images');
   this.mkdir('build');
 };
@@ -99,5 +99,5 @@ TmpwwGenerator.prototype.gitIgnore = function gitIgnore() {
 
 TmpwwGenerator.prototype.projectFiles = function projectFiles() {
   this.template('_index.html', 'dev/index.html');
-  this.template('_style.less', 'dev/less/style.less');
+  this.template('_style.scss', 'dev/sass/style.scss');
 };

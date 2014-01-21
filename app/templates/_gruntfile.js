@@ -9,26 +9,18 @@ module.exports = function(grunt) {
                 }
             }
         },
-        less: {
-            dev: {
-                files: {
-                    'dev/css/style.css': ['dev/less/style.less']
-                },
+        sass: {
+            all: {
                 options: {
-                    compress: true,
-                    relativeUrls: true,
-                    report: 'gzip'
-                }
-            },
-            build: {
-                files: {
-                    'dev/css/style.css': ['dev/less/style.less']
+                    style: 'nested'
                 },
-                options: {
-                    compress: true,
-                    relativeUrls: true,
-                    report: 'gzip'
-                }
+                files: [{
+                    expand: true,
+                    cwd: 'dev/sass',
+                    src: ['*.scss'],
+                    dest: 'dev/css',
+                    ext: '.css'
+                }]
             }
         },
         autoprefixer: {
@@ -72,7 +64,7 @@ module.exports = function(grunt) {
             },
             css: {
                 files: ['dev/less/*'],
-                tasks: ['csscomb', 'less:dev', 'autoprefixer']
+                tasks: ['less:dev', 'autoprefixer', 'csscomb']
             },
             images: {
                 files: ['dev/images/*']
@@ -96,7 +88,7 @@ module.exports = function(grunt) {
 
     // Register task groups
     grunt.registerTask('default', [
-        'less:dev',
+        'sass',
         'csscomb',
         'autoprefixer'
     ]);
@@ -106,7 +98,7 @@ module.exports = function(grunt) {
     ]);
     grunt.registerTask('build', [
         'csscomb',
-        'less:build',
+        'sass',
         'autoprefixer',
         'imagemin',
         'clean',
