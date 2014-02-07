@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
   	"css-reset": "http://meyerweb.com/eric/tools/css/reset/reset.css",
-    "html5shiv": "~3.7.0",
+    "html5shiv": "latest",
   	"jquery": "<%= jQueryVer %>"
   }
 }

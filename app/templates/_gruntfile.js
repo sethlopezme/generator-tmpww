@@ -1,19 +1,13 @@
 module.exports = function(grunt) {
 
     grunt.initConfig({
+        // Task configuration
         pkg: grunt.file.readJSON('package.json'),
-        csscomb: {
-            all: {
-                files: {
-                    'dev/css/style.css': ['dev/css/style.css']
-                }
-            }
-        },
         sass: {
+            options: {
+                style: 'expanded'
+            },
             all: {
-                options: {
-                    style: 'nested'
-                },
                 files: [{
                     expand: true,
                     cwd: 'dev/sass',
@@ -28,9 +22,24 @@ module.exports = function(grunt) {
                 options: {
                     browsers: ['last 3 versions']
                 },
-                files: {
-                    'dev/css/style.css': ['dev/css/style.css']
-                }
+                files: [{
+                    expand: true,
+                    cwd: 'dev/css',
+                    src: ['*.css'],
+                    dest: 'dev/css',
+                    ext: '.css'
+                }]
+            }
+        },
+        csscomb: {
+            all: {
+                files: [{
+                    expand: true,
+                    cwd: 'dev/css',
+                    src: ['*.css'],
+                    dest: 'dev/css',
+                    ext: '.css'
+                }]
             }
         },
         imagemin: {
@@ -42,7 +51,7 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: 'dev/images',
                     src: '*.{png,jpg,gif}',
-                    dest: 'dev/images/'
+                    dest: 'dev/images'
                 }]
             }
         },
@@ -52,8 +61,21 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'dev/',
-                    src: ['**'],
+                    src: ['**', '!sass/**'],
                     dest: 'build/'
+                }]
+            }
+        },
+        compress: {
+            build: {
+                options: {
+                    archive: 'build/images/<%= _.slugify(name) %>-images.zip',
+                    mode: 'zip'
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'build/images',
+                    src: ['*.{jpg,png,gif}']
                 }]
             }
         },
@@ -108,7 +130,8 @@ module.exports = function(grunt) {
         'autoprefixer',
         'imagemin',
         'clean',
-        'copy:build'
+        'copy:build',
+        'compress:build'
     ]);
 
 };

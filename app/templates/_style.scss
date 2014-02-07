@@ -9,17 +9,41 @@
 // CSS Reset
 @import '../components/css-reset/index.css';
 
-// Your styles below
+/*!
+ * REQUIRED TB STYLES
+ */
+
+.wai {
+	display: block;
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	width: 1px;
+}
+
+.required {
+	&:after {
+		content: '*';
+		margin-left: 2px;
+	}
+}
+
+.alert {
+	color: #f00;
+}
+
+/*!
+ * GENERAL STYLES
+ */
+
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
+}
 
 body {
 	font: normal 100%/1.4 Arial, Helvetica, sans-serif;
-}
-
-.wai {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	overflow: hidden;
 }
 
 p {
