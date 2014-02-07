@@ -5,7 +5,8 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         sass: {
             options: {
-                style: 'expanded'
+                style: 'expanded',
+                sourcemap: true
             },
             all: {
                 files: [{
