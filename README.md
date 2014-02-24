@@ -71,7 +71,7 @@ $ tree
 │   │   └── style.css
 │   ├── images/
 │   ├── {less,sass}/
-│   │   └── style.{less,sass}
+│   │   └── style.scss
 │   └── index.html
 ├── node_modules/
 │   ├── *
