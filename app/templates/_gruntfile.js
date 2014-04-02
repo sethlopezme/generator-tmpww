@@ -1,19 +1,48 @@
 module.exports = function(grunt) {
+    // Make project configuration changes here
+    var projectConfig = {
+        banner:
+            '/*!\n' + 
+            ' * Title:    <%= pkg.name %>\n' + 
+            ' * Author:   <%= pkg.author.name %> - <%= pkg.author.location %>\n' + 
+            ' *           <%= pkg.author.email %>\n' + 
+            ' * Creation: <%= pkg.creation %>\n' + 
+            ' */',
+        server_port: 9000,
+        server_base: 'dev',
+        dev: {
+            dir: 'dev',
+            sass: 'dev/sass',
+            css: 'dev/css',
+            images: 'dev/job-images/<%= pkg.templateNumber %>',
+            components: 'dev/components',
+            resources: 'dev/resources'
+        },
+        build: {
+            dir: 'build',
+            sass: 'build/sass',
+            css: 'build/css',
+            images: 'build/job-images/<%= pkg.templateNumber %>',
+            components: 'build/components',
+            resources: 'build/resources'
+        }
+    }
 
     grunt.initConfig({
         // Task configuration
         pkg: grunt.file.readJSON('package.json'),
+        projectConfig: projectConfig,
         sass: {
             options: {
                 style: 'expanded',
-                sourcemap: true
+                banner: '<%= projectConfig.banner %>'
             },
             all: {
                 files: [{
                     expand: true,
-                    cwd: 'dev/sass',
+                    cwd: '<%= projectConfig.dev.sass %>',
                     src: ['*.scss'],
-                    dest: 'dev/css',
+                    dest: '<%= projectConfig.dev.css %>',
                     ext: '.css'
                 }]
             }
@@ -21,13 +50,13 @@ module.exports = function(grunt) {
         autoprefixer: {
             all: {
                 options: {
-                    browsers: ['last 3 versions']
+                    browsers: ['last 4 versions']
                 },
                 files: [{
                     expand: true,
-                    cwd: 'dev/css',
+                    cwd: '<%= projectConfig.dev.css %>',
                     src: ['*.css'],
-                    dest: 'dev/css',
+                    dest: '<%= projectConfig.dev.css %>',
                     ext: '.css'
                 }]
             }
@@ -36,9 +65,9 @@ module.exports = function(grunt) {
             all: {
                 files: [{
                     expand: true,
-                    cwd: 'dev/css',
+                    cwd: '<%= projectConfig.dev.css %>',
                     src: ['*.css'],
-                    dest: 'dev/css',
+                    dest: '<%= projectConfig.dev.css %>',
                     ext: '.css'
                 }]
             }
@@ -50,9 +79,9 @@ module.exports = function(grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: 'dev/images',
+                    cwd: '<%= projectConfig.dev.images %>',
                     src: '*.{png,jpg,gif}',
-                    dest: 'dev/images'
+                    dest: '<%= projectConfig.dev.images %>'
                 }]
             }
         },
@@ -61,52 +90,68 @@ module.exports = function(grunt) {
             build: {
                 files: [{
                     expand: true,
-                    cwd: 'dev/',
-                    src: ['**', '!sass/**'],
-                    dest: 'build/'
+                    cwd: '<%= projectConfig.dev.dir %>',
+                    src: [
+                        '**',
+                        '!docs/**'
+                    ],
+                    dest: '<%= projectConfig.build.dir %>'
                 }]
             }
         },
         compress: {
             build: {
                 options: {
-                    archive: 'build/images/<%= _.slugify(name) %>-images.zip',
+                    archive: '<%= projectConfig.build.images %>/images.zip',
                     mode: 'zip'
                 },
                 files: [{
                     expand: true,
-                    cwd: 'build/images',
+                    cwd: '<%= projectConfig.build.images %>',
                     src: ['*.{jpg,png,gif}']
                 }]
             }
         },
         watch: {
-            options: {
-                livereload: true,
-                spawn: false
-            },
+            options: {},
             html: {
-                files: ['dev/**.html']
+                files: ['<%= projectConfig.dev.dir %>/**.html']
+            },
+            sass: {
+                files: ['<%= projectConfig.dev.sass %>/**.scss'],
+                tasks: ['sass', 'csscomb', 'autoprefixer']
             },
             css: {
-                files: ['dev/sass/*'],
-                tasks: ['sass', 'autoprefixer', 'csscomb']
+                files: ['<%= projectConfig.dev.css %>/**.css']
             },
             images: {
-                files: ['dev/images/*']
+                files: ['<%= projectConfig.dev.images %>/*']
             },
             components: {
-                files: ['dev/components/**']
+                files: ['<%= projectConfig.dev.components %>/**']
+            },
+            resources: {
+                files: ['<%= projectConfig.dev.resources %>/**']
+            },
+            livereload: {
+                files: [
+                    '<%= projectConfig.dev.dir %>/**.html',
+                    '<%= projectConfig.dev.css %>/**.css',
+                    '<%= projectConfig.dev.images %>/*'
+                ],
+                options: {
+                    livereload: true
+                }
             }
         },
         connect: {
             options: {
-                port: 9000,
-                base: 'dev',
+                port: '<%= projectConfig.server_port %>',
+                base: '<%= projectConfig.server_base %>',
                 livereload: true
             },
             open: {
-                target: 'http://localhost:9000',
+                target: 'http://localhost:<%= projectConfig.server_port %>',
                 appName: 'open'
             }
         }

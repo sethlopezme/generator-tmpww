@@ -32,24 +32,30 @@ util.inherits(TmpwwGenerator, yeoman.generators.Base);
 TmpwwGenerator.prototype.askFor = function askFor() {
   var cb = this.async();
 
-  // have Yeoman greet the user.
+  // Have Yeoman greet the user.
   console.log(this.yeoman);
   console.log("I just have a few questions to ask... It won't hurt. I promise.\n");
 
   var prompts = [{
     type: 'input',
-    name: 'devName',
+    name: 'authorName',
     message: 'What is your name?'
   },
   {
     type: 'input',
-    name: 'devEmail',
+    name: 'authorEmail',
     message: 'What is your TMP email address?'
   },
   {
     type: 'input',
-    name: 'devLocation',
+    name: 'authorLocation',
     message: 'Which TMP office are you located in?'
+  },
+  {
+    type: 'input',
+    name: 'templateNumber',
+    message: 'What is the template number for this project?',
+    default: '0000'
   },
   {
     type: 'input',
@@ -59,9 +65,10 @@ TmpwwGenerator.prototype.askFor = function askFor() {
   }];
 
   this.prompt(prompts, function (props) {
-    this.devName = props.devName;
-    this.devEmail = props.devEmail;
-    this.devLocation = props.devLocation;
+    this.authorName = props.authorName;
+    this.authorEmail = props.authorEmail;
+    this.authorLocation = props.authorLocation;
+    this.templateNumber = props.templateNumber;
     this.jQueryVer = props.jQueryVer;
 
     cb();
@@ -72,7 +79,9 @@ TmpwwGenerator.prototype.folders = function folders() {
   this.mkdir('dev');
   this.mkdir('dev/css');
   this.mkdir('dev/sass');
-  this.mkdir('dev/images');
+  this.mkdir('dev/job-images');
+  this.mkdir('dev/job-images/' + this.templateNumber);
+  this.mkdir('dev/resources/' + this.templateNumber);
   this.mkdir('build');
 };
 
@@ -82,11 +91,11 @@ TmpwwGenerator.prototype.packageJSON = function packageJSON() {
 
 TmpwwGenerator.prototype.bower = function bower() {
   this.template('_bower.json', 'bower.json');
-  this.template('_.bowerrc', '.bowerrc')
+  this.template('_.bowerrc', '.bowerrc');
 };
 
 TmpwwGenerator.prototype.gruntfile = function gruntfile() {
-  this.template('_gruntfile.js', 'gruntfile.js');
+  this.copy('_gruntfile.js', 'gruntfile.js');
 };
 
 TmpwwGenerator.prototype.editorConfig = function editorConfig() {
