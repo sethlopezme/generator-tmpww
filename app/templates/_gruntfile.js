@@ -118,7 +118,7 @@ module.exports = function(grunt) {
                 files: ['<%= projectConfig.dev.dir %>/**.html']
             },
             sass: {
-                files: ['<%= projectConfig.dev.sass %>/**.scss'],
+                files: ['<%= projectConfig.dev.sass %>/**'],
                 tasks: ['sass', 'csscomb', 'autoprefixer']
             },
             css: {
@@ -136,8 +136,7 @@ module.exports = function(grunt) {
             livereload: {
                 files: [
                     '<%= projectConfig.dev.dir %>/**.html',
-                    '<%= projectConfig.dev.css %>/**.css',
-                    '<%= projectConfig.dev.images %>/*'
+                    '<%= projectConfig.dev.css %>/**.css'
                 ],
                 options: {
                     livereload: true
