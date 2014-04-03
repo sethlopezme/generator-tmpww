@@ -113,8 +113,8 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            options: {},
             html: {
+                options: { livereload: true },
                 files: ['<%= projectConfig.dev.dir %>/**.html']
             },
             sass: {
@@ -122,9 +122,11 @@ module.exports = function(grunt) {
                 tasks: ['sass', 'csscomb', 'autoprefixer']
             },
             css: {
+                options: { livereload: true },
                 files: ['<%= projectConfig.dev.css %>/**.css']
             },
             images: {
+                options: { livereload: true },
                 files: ['<%= projectConfig.dev.images %>/*']
             },
             components: {
@@ -132,14 +134,6 @@ module.exports = function(grunt) {
             },
             resources: {
                 files: ['<%= projectConfig.dev.resources %>/**']
-            },
-            livereload: {
-                files: [
-                    '<%= projectConfig.dev.css %>/**.css'
-                ],
-                options: {
-                    livereload: true
-                }
             }
         },
         connect: {
