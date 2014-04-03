@@ -135,7 +135,6 @@ module.exports = function(grunt) {
             },
             livereload: {
                 files: [
-                    '<%= projectConfig.dev.dir %>/**.html',
                     '<%= projectConfig.dev.css %>/**.css'
                 ],
                 options: {
