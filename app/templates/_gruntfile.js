@@ -8,8 +8,7 @@ module.exports = function(grunt) {
             ' *           <%= pkg.author.email %>\n' + 
             ' * Creation: <%= pkg.creation %>\n' + 
             ' */',
-        server_port: 9000,
-        server_base: 'dev',
+        browsers: 'last 4 versions',
         dev: {
             dir: 'dev',
             sass: 'dev/sass',
@@ -25,7 +24,9 @@ module.exports = function(grunt) {
             images: 'build/job-images/<%= pkg.templateNumber %>',
             components: 'build/components',
             resources: 'build/resources'
-        }
+        },
+        server_port: 9000,
+        server_base: 'dev'
     }
 
     grunt.initConfig({
@@ -33,11 +34,10 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         projectConfig: projectConfig,
         sass: {
-            options: {
-                style: 'expanded',
-                banner: '<%= projectConfig.banner %>'
-            },
-            all: {
+            dev: {
+                options: {
+                    sourcemap: true
+                },
                 files: [{
                     expand: true,
                     cwd: '<%= projectConfig.dev.sass %>',
@@ -45,24 +45,49 @@ module.exports = function(grunt) {
                     dest: '<%= projectConfig.dev.css %>',
                     ext: '.css'
                 }]
+            },
+            build: {
+                options: {
+                    banner: '<%= projectConfig.banner %>',
+                    style: 'expanded'
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= projectConfig.build.sass %>',
+                    src: ['*.scss'],
+                    dest: '<%= projectConfig.build.css %>',
+                    ext: '.css'
+                }]
             }
         },
         autoprefixer: {
-            all: {
+            dev: {
                 options: {
-                    browsers: ['last 4 versions']
+                    browsers: ['<%= projectConfig.browsers %>']
                 },
                 files: [{
                     expand: true,
                     cwd: '<%= projectConfig.dev.css %>',
                     src: ['*.css'],
                     dest: '<%= projectConfig.dev.css %>',
+                    ext: '.css'
+                }]
+            },
+            build: {
+                options: {
+                    browsers: ['<%= projectConfig.browsers %>']
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= projectConfig.build.css %>',
+                    src: ['*.css'],
+                    dest: '<%= projectConfig.build.css %>',
                     ext: '.css'
                 }]
             }
         },
         csscomb: {
-            all: {
+            dev: {
                 files: [{
                     expand: true,
                     cwd: '<%= projectConfig.dev.css %>',
@@ -70,31 +95,37 @@ module.exports = function(grunt) {
                     dest: '<%= projectConfig.dev.css %>',
                     ext: '.css'
                 }]
+            },
+            build: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= projectConfig.build.css %>',
+                    src: ['*.css'],
+                    dest: '<%= projectConfig.build.css %>',
+                    ext: '.css'
+                }]
             }
         },
         imagemin: {
-            all: {
+            build: {
                 options: {
                     optimizationLevel: 1
                 },
                 files: [{
                     expand: true,
-                    cwd: '<%= projectConfig.dev.images %>',
+                    cwd: '<%= projectConfig.build.images %>',
                     src: '*.{png,jpg,gif}',
-                    dest: '<%= projectConfig.dev.images %>'
+                    dest: '<%= projectConfig.build.images %>'
                 }]
             }
         },
-        clean: ['build'],
+        clean: ['<%= projectConfig.build.dir %>'],
         copy: {
             build: {
                 files: [{
                     expand: true,
                     cwd: '<%= projectConfig.dev.dir %>',
-                    src: [
-                        '**',
-                        '!docs/**'
-                    ],
+                    src: ['**'],
                     dest: '<%= projectConfig.build.dir %>'
                 }]
             }
@@ -115,11 +146,11 @@ module.exports = function(grunt) {
         watch: {
             html: {
                 options: { livereload: true },
-                files: ['<%= projectConfig.dev.dir %>/**.html']
+                files: ['<%= projectConfig.dev.dir %>/**.html'],
             },
             sass: {
                 files: ['<%= projectConfig.dev.sass %>/**'],
-                tasks: ['sass', 'csscomb', 'autoprefixer']
+                tasks: ['sass:dev', 'csscomb:dev', 'autoprefixer:dev']
             },
             css: {
                 options: { livereload: true },
@@ -142,10 +173,7 @@ module.exports = function(grunt) {
                 base: '<%= projectConfig.server_base %>',
                 livereload: true
             },
-            open: {
-                target: 'http://localhost:<%= projectConfig.server_port %>',
-                appName: 'open'
-            }
+            open: true
         }
     });
 
@@ -154,22 +182,22 @@ module.exports = function(grunt) {
 
     // Register task groups
     grunt.registerTask('default', [
-        'sass',
-        'csscomb',
-        'autoprefixer'
+        'sass:dev',
+        'csscomb:dev',
+        'autoprefixer:dev'
     ]);
     grunt.registerTask('server', [
         'connect',
         'watch'
     ]);
     grunt.registerTask('build', [
-        'sass',
-        'csscomb',
-        'autoprefixer',
-        'imagemin',
         'clean',
         'copy:build',
-        'compress:build'
+        'sass:build',
+        'csscomb:build',
+        'autoprefixer:build',
+        'imagemin',
+        'compress'
     ]);
 
 };
