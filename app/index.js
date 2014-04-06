@@ -109,4 +109,5 @@ TmpwwGenerator.prototype.gitIgnore = function gitIgnore() {
 TmpwwGenerator.prototype.projectFiles = function projectFiles() {
   this.template('_index.html', 'dev/index.html');
   this.template('_style.scss', 'dev/sass/style.scss');
+  this.directory('_includes', 'dev/includes');
 };

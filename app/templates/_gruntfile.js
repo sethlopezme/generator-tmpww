@@ -33,6 +33,22 @@ module.exports = function(grunt) {
         // Task configuration
         pkg: grunt.file.readJSON('package.json'),
         projectConfig: projectConfig,
+        'string-replace': {
+            kit: {
+                options: {
+                    replacements: [{
+                        pattern: /<!--\*\* (.*?) \*\*-->/ig,
+                        replacement: function (match, p1, offset, string) {
+                            console.log(p1);
+                            return grunt.file.read(grunt.config.get('projectConfig.dev.dir') + '/includes/' + p1 + '.html');
+                        }
+                    }]
+                },
+                files: {
+                    '<%= projectConfig.dev.dir %>/index-dist.html': '<%= projectConfig.dev.dir %>/index.html'
+                }
+            }  
+        },
         sass: {
             dev: {
                 options: {
@@ -147,6 +163,7 @@ module.exports = function(grunt) {
             html: {
                 options: { livereload: true },
                 files: ['<%= projectConfig.dev.dir %>/**.html'],
+                tasks: ['string-replace']
             },
             sass: {
                 files: ['<%= projectConfig.dev.sass %>/**'],
@@ -184,7 +201,8 @@ module.exports = function(grunt) {
     grunt.registerTask('default', [
         'sass:dev',
         'csscomb:dev',
-        'autoprefixer:dev'
+        'autoprefixer:dev',
+        'string-replace'
     ]);
     grunt.registerTask('server', [
         'connect',
