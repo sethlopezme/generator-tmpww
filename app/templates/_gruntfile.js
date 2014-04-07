@@ -34,20 +34,36 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         projectConfig: projectConfig,
         'string-replace': {
-            kit: {
+            dev: {
                 options: {
                     replacements: [{
-                        pattern: /<!--\*\* (.*?) \*\*-->/ig,
-                        replacement: function (match, p1, offset, string) {
-                            console.log(p1);
-                            return grunt.file.read(grunt.config.get('projectConfig.dev.dir') + '/includes/' + p1 + '.html');
+                        pattern: /<!--\*\*(.*?)\*\*-->/ig,
+                        replacement: function(match, p1, offset, string) {
+                            var tokenDir = grunt.config.get('projectConfig.dev.components') + '/tmpww-tokens/**/';
+                            var options = {
+                                filter: 'isFile'
+                            }
+                            var files = [
+                                tokenDir + p1 + '.token.html'
+                            ]
+                            var matches = grunt.file.expand(options, files);
+                            
+                            console.log('Tokenizing ' + p1);
+                            
+                            for(var i = 0; i < matches.length; i++) {
+                                return grunt.file.read(matches[i]);
+                            }
                         }
                     }]
                 },
-                files: {
-                    '<%= projectConfig.dev.dir %>/index-dist.html': '<%= projectConfig.dev.dir %>/index.html'
-                }
-            }  
+                files: [{
+                    expand: true,
+                    cwd: '<%= projectConfig.dev.dir %>',
+                    src: ['*.pre.html'],
+                    dest: '<%= projectConfig.dev.dir %>',
+                    ext: '.html'
+                }]
+            }
         },
         sass: {
             dev: {

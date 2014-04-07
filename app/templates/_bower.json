@@ -4,6 +4,7 @@
   "dependencies": {
   	"css-reset": "http://meyerweb.com/eric/tools/css/reset/reset.css",
     "html5shiv": "latest",
-  	"jquery": "<%= jQueryVer %>"
+  	"jquery": "<%= jQueryVer %>",
+    "tmpww-tokens": "https://github.com/sethlopezme/tmpww-tokens.git"
   }
 }

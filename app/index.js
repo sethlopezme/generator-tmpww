@@ -82,6 +82,7 @@ TmpwwGenerator.prototype.folders = function folders() {
   this.mkdir('dev/job-images');
   this.mkdir('dev/job-images/' + this.templateNumber);
   this.mkdir('dev/resources/' + this.templateNumber);
+  this.mkdir('dev/components');
   this.mkdir('build');
 };
 
@@ -107,7 +108,6 @@ TmpwwGenerator.prototype.gitIgnore = function gitIgnore() {
 };
 
 TmpwwGenerator.prototype.projectFiles = function projectFiles() {
-  this.template('_index.html', 'dev/index.html');
+  this.template('_index.pre.html', 'dev/index.pre.html');
   this.template('_style.scss', 'dev/sass/style.scss');
-  this.directory('_includes', 'dev/includes');
 };
