@@ -1,7 +1,7 @@
 generator-tmpww
 ===============
 
-> Basic Yeoman generator for TMP projects. Projects are set up to use SASS, as well as many best-practices, by default.
+> Basic Yeoman generator for TMP projects. Projects are set up to use SASS, and include many best-practices by default.
 
 This generator will scaffold your project, set up Bower, and create basic Grunt tasks that make your life easier while developing.
 
@@ -63,13 +63,23 @@ $ tree
 │   ├── css/
 │   │   └── style.css
 │   ├── job-images/
-│   │   ├── 0000
-│   │   │   └── *
+│   │   ├── 0000/
 │   ├── resources/
-│   │   ├── 0000
-│   │   │   └── *
-│   ├── sass/
-│   │   └── style.scss
+│   │   ├── 0000/
+│   ├── scss/
+│   │   ├── modules/
+│   │   │   ├── _all.scss
+│   │   │   ├── _functions.scss
+│   │   │   ├── _mixins.scss
+│   │   │   └── _variables.scss
+│   │   ├── partials/
+│   │   │   ├── _all.scss
+│   │   │   ├── _layout.scss
+│   │   │   ├── _reset.scss
+│   │   │   ├── _tb-required.scss
+│   │   │   └── _typography.scss
+│   │   ├── vendor/
+│   │   └── main.scss
 │   └── index.html
 ├── node_modules/
 │   └── *
@@ -85,17 +95,18 @@ $ tree
 When using Bower, your components will be installed in the `dev/components` directory.
 
 #### Installed Dependencies
-Bower will automatically install some dependencies for you and they're already included in the index.html file.
+Bower will automatically install some dependencies for you. Some are already included in the index.html file.
 
-* Eric Meyers' CSS Reset
 * HTML5 Shiv
 * jQuery
+* tmpww-tokens
 
-During installation, Yo will ask you which version of jQuery you would like to install. The default is `jQuery#1.4.2`.
+During installation, Yo will ask you which version of jQuery you would like to install. The default is `jQuery#1.4.2`, but feel free to type any 3-point version or `latest`.
 
 ### Grunt
 Yeoman will automatically set up Grunt to do the following:
 
+* Tokenize your HTML files
 * Compile your SASS
 * Run CSSComb and Autoprefixer on your CSS files
 * Serve your files locally at `localhost:9000`
@@ -121,8 +132,8 @@ When your project is complete, and you're ready to deploy, run `grunt build` fro
 
 ## Release History
 
-* 2013-04-02        v0.2.1          Updated the grunfile for easy configuration. 
-                                    Also enabled live-reload to inject css into the document.
-* 2013-02-24        v0.2.0          Switched from LESS processing to SASS processing.
-* 2013-12-15		v0.1.1			Added HTML5 Shiv dependency for Bower.
-* 2013-12-15		v0.1.0			Initial commit to Github.
+* 2013-04-15   v0.3.0   Added support for locally tokenizing SeoAdmin tokens with sample data. Also added a basic SASS structure.
+* 2013-04-02   v0.2.1   Updated the grunfile for easy configuration. Also enabled live-reload to inject css into the document.
+* 2013-02-24   v0.2.0   Switched from LESS processing to SASS processing.
+* 2013-12-15   v0.1.1   Added HTML5 Shiv dependency for Bower.
+* 2013-12-15   v0.1.0   Initial commit to Github.

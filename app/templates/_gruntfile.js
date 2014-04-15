@@ -33,38 +33,6 @@ module.exports = function(grunt) {
         // Task configuration
         pkg: grunt.file.readJSON('package.json'),
         projectConfig: projectConfig,
-        'string-replace': {
-            dev: {
-                options: {
-                    replacements: [{
-                        pattern: /<!--\*\*(.*?)\*\*-->/ig,
-                        replacement: function(match, p1, offset, string) {
-                            var tokenDir = grunt.config.get('projectConfig.dev.components') + '/tmpww-tokens/**/';
-                            var options = {
-                                filter: 'isFile'
-                            }
-                            var files = [
-                                tokenDir + p1 + '.token.html'
-                            ]
-                            var matches = grunt.file.expand(options, files);
-                            
-                            console.log('Tokenizing ' + p1);
-                            
-                            for(var i = 0; i < matches.length; i++) {
-                                return grunt.file.read(matches[i]);
-                            }
-                        }
-                    }]
-                },
-                files: [{
-                    expand: true,
-                    cwd: '<%= projectConfig.dev.dir %>',
-                    src: ['*.pre.html'],
-                    dest: '<%= projectConfig.dev.dir %>',
-                    ext: '.html'
-                }]
-            }
-        },
         sass: {
             dev: {
                 options: {
@@ -153,6 +121,50 @@ module.exports = function(grunt) {
         },
         clean: ['<%= projectConfig.build.dir %>'],
         copy: {
+            tokenize :{
+                options: {
+                    process: function(content, srcPath) {
+                        // Begin the tokenization
+                        return content.replace(/<!--\*\*(.*?)\*\*-->/ig, function(match, p1, offset, string) {
+                            // Grab the token directory
+                            var tokenDir = grunt.config.get('projectConfig.dev.components') + '/tokens/**/';
+                            // Set the options for grunt.file.expand
+                            var options = {
+                                filter: 'isFile'
+                            }
+                            // Define the token we are looking for
+                            var files = [
+                                tokenDir + p1 + '.token.html'
+                            ]
+                            // Grab the token matches
+                            var matches = grunt.file.expand(options, files);
+                            // Build the output string for the user
+                            var log = '-- Tokenizing ' + p1 + ': ';
+                            
+                            // For each of the tokens
+                            if(matches.length > 0) {
+                                log += "Done.\n";
+                                console.log(log);
+                                
+                                for(var i = 0; i < matches.length; i++) {
+                                    return grunt.file.read(matches[i]);
+                                }
+                            } else {
+                                log += "TOKEN NOT FOUND!\n";
+                                console.log(log);
+                                return '';
+                            }
+                        });
+                    }
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= projectConfig.dev.dir %>',
+                    src: ['*.pre.html'],
+                    dest: '<%= projectConfig.dev.dir %>',
+                    ext: '.html'
+                }]
+            },
             build: {
                 files: [{
                     expand: true,
@@ -175,11 +187,19 @@ module.exports = function(grunt) {
                 }]
             }
         },
+        connect: {
+            options: {
+                port: '<%= projectConfig.server_port %>',
+                base: '<%= projectConfig.server_base %>',
+                livereload: true
+            },
+            open: true
+        },
         watch: {
             html: {
                 options: { livereload: true },
                 files: ['<%= projectConfig.dev.dir %>/**.html'],
-                tasks: ['string-replace']
+                tasks: ['copy:tokenize']
             },
             sass: {
                 files: ['<%= projectConfig.dev.sass %>/**'],
@@ -199,14 +219,6 @@ module.exports = function(grunt) {
             resources: {
                 files: ['<%= projectConfig.dev.resources %>/**']
             }
-        },
-        connect: {
-            options: {
-                port: '<%= projectConfig.server_port %>',
-                base: '<%= projectConfig.server_base %>',
-                livereload: true
-            },
-            open: true
         }
     });
 
@@ -218,7 +230,7 @@ module.exports = function(grunt) {
         'sass:dev',
         'csscomb:dev',
         'autoprefixer:dev',
-        'string-replace'
+        'copy:tokenize'
     ]);
     grunt.registerTask('server', [
         'connect',

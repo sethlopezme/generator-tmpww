@@ -78,7 +78,10 @@ TmpwwGenerator.prototype.askFor = function askFor() {
 TmpwwGenerator.prototype.folders = function folders() {
   this.mkdir('dev');
   this.mkdir('dev/css');
-  this.mkdir('dev/sass');
+  this.mkdir('dev/scss');
+  this.mkdir('dev/scss/modules');
+  this.mkdir('dev/scss/partials');
+  this.mkdir('dev/scss/vendor');
   this.mkdir('dev/job-images');
   this.mkdir('dev/job-images/' + this.templateNumber);
   this.mkdir('dev/resources/' + this.templateNumber);
@@ -86,28 +89,33 @@ TmpwwGenerator.prototype.folders = function folders() {
   this.mkdir('build');
 };
 
-TmpwwGenerator.prototype.packageJSON = function packageJSON() {
-  this.template('_package.json', 'package.json');
-};
-
-TmpwwGenerator.prototype.bower = function bower() {
-  this.template('_bower.json', 'bower.json');
-  this.template('_.bowerrc', '.bowerrc');
-};
-
-TmpwwGenerator.prototype.gruntfile = function gruntfile() {
-  this.copy('_gruntfile.js', 'gruntfile.js');
-};
-
-TmpwwGenerator.prototype.editorConfig = function editorConfig() {
-  this.copy('editorconfig', '.editorconfig');
-};
-
-TmpwwGenerator.prototype.gitIgnore = function gitIgnore() {
-  this.copy('_.gitignore', '.gitignore');
-};
-
 TmpwwGenerator.prototype.projectFiles = function projectFiles() {
-  this.template('_index.pre.html', 'dev/index.pre.html');
-  this.template('_style.scss', 'dev/sass/style.scss');
+  // Git
+  this.copy('_.gitignore', '.gitignore');
+
+  // EditorConfig
+  this.copy('_.editorconfig', '.editorconfig');
+
+  // Node
+  this.template('_package.json', 'package.json');
+
+  // Grunt
+  this.copy('_gruntfile.js', 'gruntfile.js');
+
+  // Bower
+  this.template('_.bowerrc', '.bowerrc');
+  this.template('_bower.json', 'bower.json');
+
+  // Project
+  this.template('_dev/_index.pre.html', 'dev/index.pre.html');
+  this.copy('_dev/_scss/_main.scss', 'dev/scss/main.scss');
+  this.copy('_dev/_scss/_modules/_all.scss', 'dev/scss/modules/all.scss');
+  this.copy('_dev/_scss/_modules/_functions.scss', 'dev/scss/modules/functions.scss');
+  this.copy('_dev/_scss/_modules/_mixins.scss', 'dev/scss/modules/mixins.scss');
+  this.copy('_dev/_scss/_modules/_variables.scss', 'dev/scss/modules/variables.scss');
+  this.copy('_dev/_scss/_partials/_all.scss', 'dev/scss/partials/all.scss');
+  this.copy('_dev/_scss/_partials/_layout.scss', 'dev/scss/partials/layout.scss');
+  this.copy('_dev/_scss/_partials/_reset.scss', 'dev/scss/partials/reset.scss');
+  this.copy('_dev/_scss/_partials/_tb-required.scss', 'dev/scss/partials/tb-required.scss');
+  this.copy('_dev/_scss/_partials/_typography.scss', 'dev/scss/partials/typography.scss');
 };

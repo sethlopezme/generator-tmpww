@@ -1,0 +1,36 @@
+// Breakpoints - Outputs em-based media queries
+@mixin bp($name, $expression: up, $type: only screen, $em-context: 16) {
+  // List unitless pixel-equivalent sizes here
+  $sizes: (
+    XS: 320,
+    S: 480,
+    M: 600,
+    L: 1000,
+    XL: 1200
+  );
+
+  $expressions: (
+    up: min-width,
+    down: max-width
+  );
+
+  // Check for the breakpoint name and query
+  @if map_has_key($sizes, $name) and map_has_key($expressions, $expression) {
+    $size: null;
+
+    // Calculate ems based on breakpoint size
+    @if $expression == up {
+      $size: #{(map_get($sizes, $name) / $em-context)}em
+    } @else if $expression == down {
+      $size: #{(map_get($sizes, $name) / $em-context) - (1 / $em-context)}em
+    }
+
+    // Output the media query
+    @media #{$type} and (#{map_get($expressions, $expression)}: #{$size}) {
+      @content;
+    }
+  } @else {
+    // Warn for a bad query
+    @warn "Breakpoint Mixin: Invalid breakpoint name or expression given!"
+  }
+}

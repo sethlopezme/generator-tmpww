@@ -2,9 +2,8 @@
   "name": "<%= _.slugify(name) %>",
   "version": "1.0.0",
   "dependencies": {
-  	"css-reset": "http://meyerweb.com/eric/tools/css/reset/reset.css",
     "html5shiv": "latest",
   	"jquery": "<%= jQueryVer %>",
-    "tmpww-tokens": "https://github.com/sethlopezme/tmpww-tokens.git"
+    "tmpww-tokens": "https://github.com/sethlopezme/tmpww-tokens"
   }
 }
