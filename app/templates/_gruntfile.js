@@ -2,16 +2,16 @@ module.exports = function(grunt) {
     // Make project configuration changes here
     var projectConfig = {
         banner:
-            '/*!\n' + 
-            ' * Title:    <%= pkg.name %>\n' + 
-            ' * Author:   <%= pkg.author.name %> - <%= pkg.author.location %>\n' + 
-            ' *           <%= pkg.author.email %>\n' + 
-            ' * Creation: <%= pkg.creation %>\n' + 
+            '/*!\n' +
+            ' * Title:    <%= pkg.name %>\n' +
+            ' * Author:   <%= pkg.author.name %> - <%= pkg.author.location %>\n' +
+            ' *           <%= pkg.author.email %>\n' +
+            ' * Creation: <%= pkg.creation %>\n' +
             ' */',
         browsers: 'last 4 versions',
         dev: {
             dir: 'dev',
-            sass: 'dev/sass',
+            sass: 'dev/scss',
             css: 'dev/css',
             images: 'dev/job-images/<%= pkg.templateNumber %>',
             components: 'dev/components',
@@ -19,7 +19,7 @@ module.exports = function(grunt) {
         },
         build: {
             dir: 'build',
-            sass: 'build/sass',
+            sass: 'build/scss',
             css: 'build/css',
             images: 'build/job-images/<%= pkg.templateNumber %>',
             components: 'build/components',
@@ -127,7 +127,7 @@ module.exports = function(grunt) {
                         // Begin the tokenization
                         return content.replace(/<!--\*\*(.*?)\*\*-->/ig, function(match, p1, offset, string) {
                             // Grab the token directory
-                            var tokenDir = grunt.config.get('projectConfig.dev.components') + '/tokens/**/';
+                            var tokenDir = grunt.config.get('projectConfig.dev.components') + '/tmpww-tokens/**/';
                             // Set the options for grunt.file.expand
                             var options = {
                                 filter: 'isFile'
@@ -140,12 +140,12 @@ module.exports = function(grunt) {
                             var matches = grunt.file.expand(options, files);
                             // Build the output string for the user
                             var log = '-- Tokenizing ' + p1 + ': ';
-                            
+
                             // For each of the tokens
                             if(matches.length > 0) {
                                 log += "Done.\n";
                                 console.log(log);
-                                
+
                                 for(var i = 0; i < matches.length; i++) {
                                     return grunt.file.read(matches[i]);
                                 }
