@@ -4,6 +4,6 @@
   "dependencies": {
     "html5shiv": "latest",
   	"jquery": "<%= jQueryVer %>",
-    "tmpww-tokens": "https://github.com/sethlopezme/tmpww-tokens"
+    "tmpww-tokens": "sethlopezme/tmpww-tokens#master"
   }
 }
