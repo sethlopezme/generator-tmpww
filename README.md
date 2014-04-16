@@ -132,8 +132,9 @@ When your project is complete, and you're ready to deploy, run `grunt build` fro
 
 ## Release History
 
-* 2013-04-15   v0.3.0   Added support for locally tokenizing SeoAdmin tokens with sample data. Also added a basic SASS structure.
-* 2013-04-02   v0.2.1   Updated the grunfile for easy configuration. Also enabled live-reload to inject css into the document.
-* 2013-02-24   v0.2.0   Switched from LESS processing to SASS processing.
+* 2014-04-16   v0.4.0   Finished up token support. Fixed SASS compiling issues.
+* 2014-04-15   v0.3.0   Added support for locally tokenizing SeoAdmin tokens with sample data. Also added a basic SASS structure.
+* 2014-04-02   v0.2.1   Updated the grunfile for easy configuration. Also enabled live-reload to inject css into the document.
+* 2014-02-24   v0.2.0   Switched from LESS processing to SASS processing.
 * 2013-12-15   v0.1.1   Added HTML5 Shiv dependency for Bower.
 * 2013-12-15   v0.1.0   Initial commit to Github.
