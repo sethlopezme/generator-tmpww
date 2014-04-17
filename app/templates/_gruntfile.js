@@ -124,6 +124,19 @@ module.exports = function(grunt) {
             tokenize :{
                 options: {
                     process: function(content, srcPath) {
+                        var bodyElement = /<body (.*)?/i.exec(content)[1];
+
+                        if(bodyElement == "(.*)?") {
+                            var tokenConfig = {
+                                    "page": "default",
+                                    "options": ['none']
+                                };
+                        } else {
+                            var tokenConfig = {
+                                "page": 'default',
+                                "options": ['none']
+                                };
+                        }
                         // Begin the tokenization
                         return content.replace(/<!--\*\*(.*?)\*\*-->/ig, function(match, p1, offset, string) {
                             // Grab the token directory
