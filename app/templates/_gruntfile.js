@@ -256,7 +256,7 @@ module.exports = function(grunt) {
         watch: {
             html: {
                 options: { livereload: true },
-                files: ['<%= projectConfig.dev.dir %>/**.html'],
+                files: ['<%= projectConfig.dev.dir %>/**.pre.html'],
                 tasks: ['copy:tokenize']
             },
             sass: {
