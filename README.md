@@ -35,6 +35,22 @@ npm link
 Now you're ready to go!
 
 ## Using the Generator
+### Be Sure to Update
+Before you create a new project, it is important that you always have the latest version of this generator, as well as the latest versions of dependencies. In order to update the generator, `cd` into the directory of the generator, and run the following command:
+
+```shell
+git pull origin master
+```
+
+This should update all of the files in the generator to the latest versions. Next, we want to clear Bower's cache, so we don't pull in cached versions. To do that, run this command:
+
+```shell
+bower cache clean
+```
+
+Now you're all set to start a new project.
+
+### New Projects
 Create a new directory for your project, and open a shell there. To scaffold your project, enter the following command in your shell:
 
 ```shell

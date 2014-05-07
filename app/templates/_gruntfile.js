@@ -124,6 +124,45 @@ module.exports = function(grunt) {
             tokenize :{
                 options: {
                     process: function(content, srcPath) {
+                        var log = '';
+                        // Setup the default token configuration
+                        var tokenConfig = {
+                            page: 'default',
+                            options: 'none'
+                        }
+                        // Grab the body element
+                        var bodyAttributes = /<body (.*)?>/i.exec(content)[1];
+
+                        // Set the token configuration based on the body attributes
+                        if(bodyAttributes != "(.*)?") {
+                            bodyAttributes = bodyAttributes.split(/\W\s+/ig);
+
+                            for(var i = 0; i < bodyAttributes.length; i++) {
+                                bodyAttributes[i] = bodyAttributes[i].split('=');
+                                bodyAttributes[i][1] = bodyAttributes[i][1].replace(/[^\w\s-]/ig, '').split(' ');
+
+                                if(bodyAttributes[i][0] == 'id' && bodyAttributes[i][1].length == 1) {
+                                    tokenConfig.page = bodyAttributes[i][1];
+                                } else if(bodyAttributes[i][0] == 'data-config' && bodyAttributes[i][1].length > 0) {
+                                    tokenConfig.options = bodyAttributes[i][1];
+                                }
+                            }
+                        }
+
+                        // Tell the user what page and configuration options were detected
+                        log += '\nTokenizing Page: ' + tokenConfig.page + '\n';
+                        log += 'Token Options: ';
+                        if(typeof(tokenConfig.options) != "string") {
+                            for(var i = 0; i < tokenConfig.options.length; i++) {
+                                if(i > 0) log += ', ';
+                                log += tokenConfig.options[i];
+                            }
+                        } else {
+                            log += tokenConfig.options + '\n';
+                        }
+                        log += '\n';
+                        console.log(log);
+
                         // Begin the tokenization
                         return content.replace(/<!--\*\*(.*?)\*\*-->/ig, function(match, p1, offset, string) {
                             // Grab the token directory
@@ -132,6 +171,25 @@ module.exports = function(grunt) {
                             var options = {
                                 filter: 'isFile'
                             }
+                            // Modify the token name as needed
+                            switch(p1) {
+                                // By Token
+                                case 'AdvancedSearchTag':
+                                    if(typeof(tokenConfig.options) !== 'string' && tokenConfig.options.indexOf('radius') !== -1) {
+                                        p1 = p1 + '-WithRadius';
+                                    }
+
+                                    break;
+                                case 'RecentOpeningsHTML':
+                                    if(tokenConfig.page == 'jobPage') {
+                                        p1 = p1 + '-JobPage';
+                                    }
+
+                                    break;
+                                default:
+                                    break;
+                            }
+
                             // Define the token we are looking for
                             var files = [
                                 tokenDir + p1 + '.token.html'
@@ -139,18 +197,18 @@ module.exports = function(grunt) {
                             // Grab the token matches
                             var matches = grunt.file.expand(options, files);
                             // Build the output string for the user
-                            var log = '-- Tokenizing ' + p1 + ': ';
+                            var log = '-- ' + p1 + ': ';
 
                             // For each of the tokens
                             if(matches.length > 0) {
-                                log += "Done.\n";
+                                log += "Done.";
                                 console.log(log);
 
                                 for(var i = 0; i < matches.length; i++) {
                                     return grunt.file.read(matches[i]);
                                 }
                             } else {
-                                log += "TOKEN NOT FOUND!\n";
+                                log += "TOKEN NOT FOUND!";
                                 console.log(log);
                                 return '';
                             }
